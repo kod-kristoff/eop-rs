@@ -1,5 +1,7 @@
 mod bifurcate_coordinate;
+pub mod concepts;
 pub mod math;
+pub mod transformations;
 pub mod trees;
 
 pub use bifurcate_coordinate::BifurcateCoordinate;

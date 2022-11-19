@@ -1,10 +1,11 @@
 use std::ops::Mul;
 
 use eop::math::power_unary;
+use eop::transformations::distance;
 
 fn sq<T>(x: T) -> T
 where
-    T: Mul<T, Output = T>,
+    T: Mul<T, Output = T> + Copy,
 {
     x * x
 }
@@ -17,4 +18,9 @@ fn test_power_unary() {
             assert_eq!(power_unary(i, j, sq), tmp * tmp);
         }
     }
+}
+
+#[test]
+fn test_distance() {
+    assert_eq!(distance(2, 65536, sq), 4);
 }
