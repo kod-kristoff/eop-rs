@@ -1,5 +1,6 @@
-pub mod trees;
 mod bifurcate_coordinate;
+pub mod math;
+pub mod trees;
 
 pub use bifurcate_coordinate::BifurcateCoordinate;
 pub use bifurcate_coordinate::{height_recursive, weight_recursive};
