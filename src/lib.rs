@@ -1,5 +1,6 @@
 mod bifurcate_coordinate;
 pub mod concepts;
+pub mod core;
 pub mod math;
 pub mod transformations;
 pub mod trees;
