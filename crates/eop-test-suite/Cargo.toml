@@ -1,0 +1,12 @@
+[package]
+name = "eop-test-suite"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+doctest = false
+doc = false
+test = false
+
+[dependencies]
+eop = { workspace = true }

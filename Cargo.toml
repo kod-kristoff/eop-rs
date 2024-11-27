@@ -1,15 +1,14 @@
-[package]
+[workspace.package]
 name = "eop-rs"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [workspace]
-members = [
-    "libs/*",
-]
+resolver = "2"
+members = ["crates/bifurcate-coordinate", "crates/eop-test-suite", "libs/*"]
 
-[dependencies]
-env_logger = "0.9.0"
+[workspace.dependencies]
+# local crates
+bifurcate-coordinate = { path = "crates/bifurcate-coordinate" }
 eop = { version = "0.1.0", path = "libs/eop" }
-log = "0.4.14"
