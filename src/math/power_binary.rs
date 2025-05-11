@@ -44,3 +44,20 @@ where
         op.call(power_0(op.call(a, a), n.half_nonnegative(), op), a)
     }
 }
+
+/// Precondition: `associative(op) && n > 0`
+pub fn power_1<I, Op, Args>(a: Op::Domain, n: I, op: Op) -> Op::Domain
+where
+    Op: BinaryOperation<Args> + Copy,
+    I: Integer,
+    Op::Domain: Copy,
+{
+    if n == I::one() {
+        return a;
+    }
+    let mut r = power_0(op.call(a, a), n.half_nonnegative(), op);
+    if !n.is_even() {
+        r = op.call(r, a);
+    }
+    r
+}

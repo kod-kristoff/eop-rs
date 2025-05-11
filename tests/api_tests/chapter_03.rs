@@ -1,6 +1,6 @@
 use std::ops::{Add, Mul, Sub};
 
-use eop::math::power_binary::{power_0, power_left_associated};
+use eop::math::power_binary::{power_0, power_1, power_left_associated};
 
 fn plus<T>(x: T, y: T) -> T
 where
@@ -89,6 +89,11 @@ mod power_right_associated {
 }
 
 #[test]
-fn power0_works() {
+fn power_0_works() {
     algorithm_power(power_0);
+}
+
+#[test]
+fn power_1_works() {
+    algorithm_power(power_1);
 }
