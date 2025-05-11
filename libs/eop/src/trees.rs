@@ -2,30 +2,53 @@ use std::rc::Rc;
 
 use crate::BifurcateCoordinate;
 
+pub use self::tree::{Tree, TreeCoordinate, TreeNode};
+
+mod tree;
+
+pub trait BinaryTree: Default {
+    type ValueType;
+    type CoordinateType;
+    fn new() -> Self {
+        Self::default()
+    }
+    fn leaf(t: Self::ValueType) -> Self;
+    fn tree(t: Self::ValueType, left: Self, right: Self) -> Self;
+    fn coord(&self) -> Self::CoordinateType;
+}
+
 #[derive(Debug)]
 pub struct STree<T> {
     root: STreeCoordinate<T>,
 }
 
-impl<T> STree<T> {
-    pub fn new() -> Self {
+impl<T> Default for STree<T> {
+    fn default() -> Self {
+        Self {
+            root: STreeCoordinate::default(),
+        }
+    }
+}
+
+impl<T> BinaryTree for STree<T> {
+    type ValueType = T;
+    type CoordinateType = STreeCoordinate<T>;
+
+    fn new() -> Self {
         let root = STreeCoordinate::new();
         Self { root }
     }
 
-    pub fn leaf(t: T) -> Self {
+    fn leaf(t: T) -> Self {
         let root = STreeCoordinate::leaf(t);
         Self { root }
     }
 
-    pub fn tree(t: T, left: Self, right: Self) -> Self {
+    fn tree(t: T, left: Self, right: Self) -> Self {
         let root = STreeCoordinate::tree(t, left.root, right.root);
         Self { root }
     }
-}
-
-impl<T> STree<T> {
-    pub fn coord(&self) -> STreeCoordinate<T> {
+    fn coord(&self) -> Self::CoordinateType {
         self.root.clone()
     }
 }
@@ -35,41 +58,42 @@ pub struct STreeCoordinate<T> {
     ptr: Option<Rc<STreeNode<T>>>,
 }
 
+impl<T> Default for STreeCoordinate<T> {
+    fn default() -> Self {
+        Self { ptr: None }
+    }
+}
+
 impl<T> STreeCoordinate<T> {
     pub fn new() -> Self {
         Self { ptr: None }
     }
 
     pub fn leaf(value: T) -> Self {
-        Self { ptr: Some(
-            Rc::new(
-                STreeNode { 
-                    value, 
-                    left_successor_link: None,
-                    right_successor_link: None,
-                }
-            )
-        ) 
-    }
+        Self {
+            ptr: Some(Rc::new(STreeNode {
+                value,
+                left_successor_link: None,
+                right_successor_link: None,
+            })),
+        }
     }
 
     pub fn tree(value: T, left: Self, right: Self) -> Self {
-        Self { 
-            ptr: Some(
-                Rc::new(
-                    STreeNode {
-                        value,
-                        left_successor_link: left.ptr,
-                        right_successor_link: right.ptr,
-                    }
-                )
-            )
+        Self {
+            ptr: Some(Rc::new(STreeNode {
+                value,
+                left_successor_link: left.ptr,
+                right_successor_link: right.ptr,
+            })),
         }
-    } 
+    }
 }
 impl<T> Clone for STreeCoordinate<T> {
     fn clone(&self) -> Self {
-        Self { ptr: self.ptr.clone() }
+        Self {
+            ptr: self.ptr.clone(),
+        }
     }
 }
 
@@ -86,28 +110,35 @@ impl<T> BifurcateCoordinate for STreeCoordinate<T> {
     }
 
     fn has_left_successor(&self) -> bool {
-        self.ptr.as_ref().map_or(false, |node| node.left_successor_link.is_some())
+        self.ptr
+            .as_ref()
+            .map_or(false, |node| node.left_successor_link.is_some())
     }
 
-    fn left_succesor(&self) -> Self {
+    fn left_successor(&self) -> Self {
         match self.ptr.as_ref() {
             None => panic!("No left_succesor"),
-            Some(node) => Self { ptr: node.left_successor_link.clone() }
+            Some(node) => Self {
+                ptr: node.left_successor_link.clone(),
+            },
         }
     }
 
     fn has_right_successor(&self) -> bool {
-        self.ptr.as_ref().map_or(false, |node| node.right_successor_link.is_some())
+        self.ptr
+            .as_ref()
+            .map_or(false, |node| node.right_successor_link.is_some())
     }
 
-    fn right_succesor(&self) -> Self {
+    fn right_successor(&self) -> Self {
         match self.ptr.as_ref() {
             None => panic!("No right_succesor"),
-            Some(node) => Self { ptr: node.right_successor_link.clone() }
+            Some(node) => Self {
+                ptr: node.right_successor_link.clone(),
+            },
         }
     }
 }
-
 
 #[cfg(test)]
 mod tests {
