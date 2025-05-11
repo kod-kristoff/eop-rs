@@ -7,7 +7,7 @@ use eop::transformations::orbits::{
     circular, circular_nonterminating_orbit, collision_point, connection_point,
     connection_point_nonterminating_orbit, orbit_structure, orbit_structure_nonterminating_orbit,
 };
-use eop::transformations::{distance, orbits::terminating, Transformation};
+use eop::transformations::{Transformation, distance, orbits::terminating};
 
 fn sq<T>(x: T) -> T
 where
@@ -181,11 +181,7 @@ mod functions {
     }
 
     fn f_circ(x: i32) -> i32 {
-        if x == 4 {
-            0
-        } else {
-            x + 1
-        }
+        if x == 4 { 0 } else { x + 1 }
     }
     fn p_circ(x: i32) -> bool {
         0 <= x && x < 5

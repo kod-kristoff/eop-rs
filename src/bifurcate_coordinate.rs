@@ -23,7 +23,6 @@ pub fn height_recursive(c: impl BifurcateCoordinate) -> usize {
         0
     };
     1 + l.max(r)
-
 }
 
 pub fn weight_recursive(c: impl BifurcateCoordinate) -> usize {
@@ -41,5 +40,4 @@ pub fn weight_recursive(c: impl BifurcateCoordinate) -> usize {
         0
     };
     1 + l + r
-
 }
