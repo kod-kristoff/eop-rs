@@ -2,7 +2,7 @@ use std::ops::Add;
 
 use crate::concepts::{One, Zero};
 use crate::core::UnaryPredicate;
-use crate::transformations::{distance, Transformation};
+use crate::transformations::{Transformation, distance};
 
 pub fn collision_point<F, Fargs, P, Pargs>(x: F::Domain, f: F, p: P) -> F::Domain
 where

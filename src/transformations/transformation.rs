@@ -11,7 +11,7 @@ where
 {
     type Domain = T;
     type DistanceType = usize;
-    
+
     fn call(&self, x: Self::Domain) -> Self::Domain {
         (self)(x)
     }

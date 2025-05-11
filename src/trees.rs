@@ -41,35 +41,30 @@ impl<T> STreeCoordinate<T> {
     }
 
     pub fn leaf(value: T) -> Self {
-        Self { ptr: Some(
-            Rc::new(
-                STreeNode { 
-                    value, 
-                    left_successor_link: None,
-                    right_successor_link: None,
-                }
-            )
-        ) 
-    }
+        Self {
+            ptr: Some(Rc::new(STreeNode {
+                value,
+                left_successor_link: None,
+                right_successor_link: None,
+            })),
+        }
     }
 
     pub fn tree(value: T, left: Self, right: Self) -> Self {
-        Self { 
-            ptr: Some(
-                Rc::new(
-                    STreeNode {
-                        value,
-                        left_successor_link: left.ptr,
-                        right_successor_link: right.ptr,
-                    }
-                )
-            )
+        Self {
+            ptr: Some(Rc::new(STreeNode {
+                value,
+                left_successor_link: left.ptr,
+                right_successor_link: right.ptr,
+            })),
         }
-    } 
+    }
 }
 impl<T> Clone for STreeCoordinate<T> {
     fn clone(&self) -> Self {
-        Self { ptr: self.ptr.clone() }
+        Self {
+            ptr: self.ptr.clone(),
+        }
     }
 }
 
@@ -86,28 +81,35 @@ impl<T> BifurcateCoordinate for STreeCoordinate<T> {
     }
 
     fn has_left_successor(&self) -> bool {
-        self.ptr.as_ref().map_or(false, |node| node.left_successor_link.is_some())
+        self.ptr
+            .as_ref()
+            .map_or(false, |node| node.left_successor_link.is_some())
     }
 
     fn left_succesor(&self) -> Self {
         match self.ptr.as_ref() {
             None => panic!("No left_succesor"),
-            Some(node) => Self { ptr: node.left_successor_link.clone() }
+            Some(node) => Self {
+                ptr: node.left_successor_link.clone(),
+            },
         }
     }
 
     fn has_right_successor(&self) -> bool {
-        self.ptr.as_ref().map_or(false, |node| node.right_successor_link.is_some())
+        self.ptr
+            .as_ref()
+            .map_or(false, |node| node.right_successor_link.is_some())
     }
 
     fn right_succesor(&self) -> Self {
         match self.ptr.as_ref() {
             None => panic!("No right_succesor"),
-            Some(node) => Self { ptr: node.right_successor_link.clone() }
+            Some(node) => Self {
+                ptr: node.right_successor_link.clone(),
+            },
         }
     }
 }
-
 
 #[cfg(test)]
 mod tests {
