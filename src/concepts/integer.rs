@@ -61,19 +61,39 @@ impl One for u64 {
 }
 pub trait Integer: Sized + Zero + One + Eq + Sub<Self, Output = Self> + Copy {
     fn predecessor(&self) -> Self;
+    fn half_nonnegative(&self) -> Self;
+    fn is_even(&self) -> bool;
 }
 impl Integer for u32 {
     fn predecessor(&self) -> Self {
         self - 1
+    }
+    fn half_nonnegative(&self) -> Self {
+        self >> 1
+    }
+    fn is_even(&self) -> bool {
+        self & 1 == 0
     }
 }
 impl Integer for i32 {
     fn predecessor(&self) -> Self {
         self - 1
     }
+    fn half_nonnegative(&self) -> Self {
+        self >> 1
+    }
+    fn is_even(&self) -> bool {
+        self & 1 == 0
+    }
 }
 impl Integer for u64 {
     fn predecessor(&self) -> Self {
         self - 1
+    }
+    fn half_nonnegative(&self) -> Self {
+        self >> 1
+    }
+    fn is_even(&self) -> bool {
+        self & 1 == 0
     }
 }
