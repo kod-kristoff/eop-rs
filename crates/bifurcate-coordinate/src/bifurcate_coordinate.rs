@@ -1,45 +1,36 @@
-pub trait BifurcateCoordinate {
+pub trait BifurcateCoordinate: Sized {
     fn is_empty(&self) -> bool;
 
-    fn has_left_successor(&self) -> bool;
-    fn left_succesor(&self) -> Self;
+    fn left_successor(&self) -> Option<Self>;
 
-    fn has_right_successor(&self) -> bool;
-    fn right_succesor(&self) -> Self;
+    fn right_successor(&self) -> Option<Self>;
 }
 
-pub fn height_recursive(c: impl BifurcateCoordinate) -> usize {
+pub trait BifurcateCoordinateMut {
+    fn set_left_successor(&mut self, l: Self);
+    fn set_right_successor(&mut self, r: Self);
+}
+
+pub fn height_recursive<C: BifurcateCoordinate>(c: &C) -> usize {
     if c.is_empty() {
         return 0;
     }
-    let l = if c.has_left_successor() {
-        height_recursive(c.left_succesor())
-    } else {
-        0
-    };
-    let r = if c.has_right_successor() {
-        height_recursive(c.right_succesor())
-    } else {
-        0
-    };
+    let l = c.left_successor().map_or(0, |succ| height_recursive(&succ));
+    let r = c
+        .right_successor()
+        .map_or(0, |succ| height_recursive(&succ));
+
     1 + l.max(r)
-
 }
 
-pub fn weight_recursive(c: impl BifurcateCoordinate) -> usize {
+pub fn weight_recursive<C: BifurcateCoordinate>(c: &C) -> usize {
     if c.is_empty() {
         return 0;
     }
-    let l = if c.has_left_successor() {
-        weight_recursive(c.left_succesor())
-    } else {
-        0
-    };
-    let r = if c.has_right_successor() {
-        weight_recursive(c.right_succesor())
-    } else {
-        0
-    };
-    1 + l + r
+    let l = c.left_successor().map_or(0, |succ| weight_recursive(&succ));
+    let r = c
+        .right_successor()
+        .map_or(0, |succ| weight_recursive(&succ));
 
+    1 + l + r
 }
