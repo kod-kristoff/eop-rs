@@ -17,8 +17,8 @@ where
 }
 #[test]
 fn test_power_unary() {
-    for i in 2..4 {
-        for j in 1..4 {
+    for i in 2u64..5u64 {
+        for j in 1u64..5u64 {
             let tmp = power_unary(i, j - 1, sq);
 
             assert_eq!(power_unary(i, j, sq), tmp * tmp);

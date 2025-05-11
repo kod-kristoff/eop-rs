@@ -28,6 +28,14 @@ impl Zero for i32 {
         *self == 0
     }
 }
+impl Zero for u64 {
+    fn zero() -> Self {
+        0
+    }
+    fn is_zero(&self) -> bool {
+        *self == 0
+    }
+}
 pub trait One: Sized {
     fn one() -> Self;
 }
@@ -46,6 +54,11 @@ impl One for i32 {
         1
     }
 }
+impl One for u64 {
+    fn one() -> Self {
+        1
+    }
+}
 pub trait Integer: Sized + Zero + One + Eq + Sub<Self, Output = Self> + Copy {
     fn predecessor(&self) -> Self;
 }
@@ -55,6 +68,11 @@ impl Integer for u32 {
     }
 }
 impl Integer for i32 {
+    fn predecessor(&self) -> Self {
+        self - 1
+    }
+}
+impl Integer for u64 {
     fn predecessor(&self) -> Self {
         self - 1
     }
