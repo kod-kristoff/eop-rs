@@ -11,6 +11,6 @@ rust-version = "1.85"
 # ]
 
 [dependencies]
-env_logger = "0.9.0"
+env_logger = "0.11.0"
 # eop = { version = "0.1.0", path = "libs/eop" }
 log = "0.4.14"
