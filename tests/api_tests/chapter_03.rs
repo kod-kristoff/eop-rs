@@ -1,6 +1,10 @@
 use std::ops::{Add, Mul, Sub};
 
-use eop::math::power_binary::{power_0, power_1, power_left_associated};
+use eop::math::power_binary::{
+    power, power_0, power_1, power_accumulate, power_accumulate_0, power_accumulate_1,
+    power_accumulate_2, power_accumulate_3, power_accumulate_4, power_accumulate_positive,
+    power_left_associated,
+};
 
 fn plus<T>(x: T, y: T) -> T
 where
@@ -34,6 +38,20 @@ fn algorithm_power(pow: fn(i32, i32, fn(i32, i32) -> i32) -> i32) {
     assert_eq!(pow(2, 2, multiply), 4);
     assert_eq!(pow(2, 10, multiply), 1024);
     assert_eq!(pow(10, 2, multiply), 100);
+}
+
+fn algorithm_power_accumulate_positive(pow: fn(i32, i32, i32, fn(i32, i32) -> i32) -> i32) {
+    assert_eq!(pow(99, 1, 1, multiply), 99 * 1);
+    assert_eq!(pow(99, 10, 1, multiply), 99 * 10);
+    assert_eq!(pow(99, 1, 10, multiply), 99 * 1);
+    assert_eq!(pow(99, 2, 2, multiply), 99 * 4);
+    assert_eq!(pow(99, 2, 10, multiply), 99 * 1024);
+    assert_eq!(pow(99, 10, 2, multiply), 99 * 100);
+}
+
+fn algorithm_power_accumulate(pow: fn(i32, i32, i32, fn(i32, i32) -> i32) -> i32) {
+    algorithm_power_accumulate_positive(pow);
+    assert_eq!(pow(99, 1, 0, multiply), 99);
 }
 
 mod power_left_associated {
@@ -96,4 +114,44 @@ fn power_0_works() {
 #[test]
 fn power_1_works() {
     algorithm_power(power_1);
+}
+
+#[test]
+fn power_accumulate_0_works() {
+    algorithm_power_accumulate(power_accumulate_0);
+}
+
+#[test]
+fn power_accumulate_1_works() {
+    algorithm_power_accumulate(power_accumulate_1);
+}
+
+#[test]
+fn power_accumulate_2_works() {
+    algorithm_power_accumulate(power_accumulate_2);
+}
+
+#[test]
+fn power_accumulate_3_works() {
+    algorithm_power_accumulate(power_accumulate_3);
+}
+
+#[test]
+fn power_accumulate_4_works() {
+    algorithm_power_accumulate(power_accumulate_4);
+}
+
+#[test]
+fn power_accumulate_positive_works() {
+    algorithm_power_accumulate_positive(power_accumulate_positive);
+}
+
+#[test]
+fn power_accumulate_works() {
+    algorithm_power_accumulate(power_accumulate);
+}
+
+#[test]
+fn power_works() {
+    algorithm_power(power);
 }

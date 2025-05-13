@@ -63,6 +63,7 @@ pub trait Integer: Sized + Zero + One + Eq + Sub<Self, Output = Self> + Copy {
     fn predecessor(&self) -> Self;
     fn half_nonnegative(&self) -> Self;
     fn is_even(&self) -> bool;
+    fn is_odd(&self) -> bool;
 }
 impl Integer for u32 {
     fn predecessor(&self) -> Self {
@@ -73,6 +74,9 @@ impl Integer for u32 {
     }
     fn is_even(&self) -> bool {
         self & 1 == 0
+    }
+    fn is_odd(&self) -> bool {
+        self & 1 != 0
     }
 }
 impl Integer for i32 {
@@ -85,6 +89,9 @@ impl Integer for i32 {
     fn is_even(&self) -> bool {
         self & 1 == 0
     }
+    fn is_odd(&self) -> bool {
+        self & 1 != 0
+    }
 }
 impl Integer for u64 {
     fn predecessor(&self) -> Self {
@@ -95,5 +102,8 @@ impl Integer for u64 {
     }
     fn is_even(&self) -> bool {
         self & 1 == 0
+    }
+    fn is_odd(&self) -> bool {
+        self & 1 != 0
     }
 }
